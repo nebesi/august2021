@@ -1,10 +1,25 @@
+class CartItem {
+    //тут будет разметка для товара
+    //тут будут кнопки повышения и уменьшения количества товара
+}
+
+class Cart {
+    //сюда тоже будут приходить ответы с сервера
+    //будут попадать товары
+    //инициализация кнопок корзины
+    //будет прорисовка товаров корзины
+}
+
 class ProductList {
     constructor(container = '.products') {
         this.container = container;
         this.goods = [];
         this._fetchProducts();
         this.render();//вывод товаров на страницу
+        this.goodsList()
     }
+
+    //метод с обработчиком событий для добавления товара по клику
     _fetchProducts() {
         this.goods = [
             { id: 1, title: 'Notebook', price: 2000 },
@@ -20,6 +35,14 @@ class ProductList {
             const item = new ProductItem(product);
             block.insertAdjacentHTML("beforeend", item.render());
         }
+    }
+
+    goodsList() {
+        let sum = 0;
+
+        sum = this.goods.reduce((sum, cur) => sum + cur.price, 0);
+
+        console.log(`общая цена за все товары - ${sum}`)
     }
 }
 
@@ -42,5 +65,8 @@ class ProductItem {
             </div>`
     }
 }
+
+
+
 
 let list = new ProductList();
