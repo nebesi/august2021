@@ -34,8 +34,8 @@ button {
     z-index: 3;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
-    padding: 4px;
+    justify-content: flex-end;
+    padding: 15px;
     border-radius: 5px;
     opacity: 1;
 }
@@ -143,4 +143,8 @@ button {
     opacity: 0;
     transition: 1s;
     display: none;
+}
+
+.allPrice {
+    padding: 10px;
 }

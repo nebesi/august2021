@@ -29,6 +29,22 @@ class List {
             htmlBlock.insertAdjacentHTML('beforeend', product.render());
             this.allProducts.push(product)
         }
+        if(this.constructor.name === 'Cart') this.showAllPrice()
+    }
+
+    showAllPrice() {
+        let allPrice = document.querySelector('.allPrice');
+
+        if(!this.allProducts.length) {
+            allPrice.innerHTML = 'корзина пуста';
+            return;
+        };
+
+        let sum = 0;
+        this.allProducts.forEach(element => {
+            sum += element.item.quantity * element.item.price;
+        })
+        allPrice.innerHTML = `общая стоимость: ${sum}`
     }
 
     init() {}
@@ -118,12 +134,17 @@ class Cart extends List {
     }
 
     update(obj) {
+
         let htmlObj = document.querySelector(`.quantity[data-id="${obj.item.id_product}"]`)
-        htmlObj.innerHTML = `Количество - ${obj.item.quantity}`
+        htmlObj.innerHTML = `Количество - ${obj.item.quantity}`;
+
+        let price = document.querySelector(`.price[data-price="${obj.item.id_product}"]`);
+        price.innerHTML = `Цена -  ${obj.item.quantity * obj.item.price}`
+
+        this.showAllPrice();
     }
 
     init() {
-
 
         document.querySelector(this.container).addEventListener('click', e => {
             if(e.target.className == 'remove-btn') {
@@ -135,6 +156,7 @@ class Cart extends List {
             let cart = document.querySelector(this.container);
             cart.classList.toggle('invisible')
         })
+
     }
 
     removeFunc(target) {
@@ -149,6 +171,8 @@ class Cart extends List {
             find.item.quantity--;
             this.update(find);
         }
+
+        this.showAllPrice();
     }
 
 }
@@ -163,7 +187,7 @@ class CartItem extends Item {
             <div class = "block-info" data-id="${this.item.id_product}">
                 <img src="${this.img}" alt="карточка продукта" class="block-info__image imag">
                         <h3>${this.item.product_name}</h3>
-                        <p class="price">Цена - ${this.item.price}</p>
+                        <p class="price" data-price="${this.item.id_product}">Цена - ${this.item.price}</p>
                         <p
                         class = "quantity"
                         data-id="${this.item.id_product}">
